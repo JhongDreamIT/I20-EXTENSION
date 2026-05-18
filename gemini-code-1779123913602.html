@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I-20 Extension Guide</title>
+    <style>
+        :root {
+            --bg-color: #f5f5f7;
+            --card-bg: #ffffff;
+            --text-main: #1d1d1f;
+            --text-muted: #86868b;
+            --accent: #0071e3;
+            --accent-hover: #005cbf;
+            --border-radius: 18px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.5;
+            display: flex;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Prominent Language Banner */
+        .language-banner {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 24px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0, 113, 227, 0.12);
+            border: 2px solid rgba(0, 113, 227, 0.2);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .language-banner label {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .language-banner select {
+            appearance: none;
+            background-color: #f0f8ff;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            font-size: 1.05rem;
+            font-weight: 600;
+            padding: 12px 40px 12px 20px;
+            border-radius: 14px;
+            cursor: pointer;
+            width: 100%;
+            max-width: 350px;
+            text-align: center;
+            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%230071e3%22%20stroke-width%3D%222.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px top 50%;
+            background-size: 16px auto;
+            transition: var(--transition);
+        }
+
+        .language-banner select:hover {
+            background-color: #e0f0ff;
+        }
+
+        .language-banner select:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.3);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+        }
+
+        p.subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .section {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+        }
+
+        h2 {
+            font-size: 1.25rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        /* Interactive Timeline Options */
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .option-card {
+            border: 2px solid #e5e5ea;
+            border-radius: 14px;
+            padding: 20px;
+            cursor: pointer;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .option-card:hover {
+            border-color: #c7c7cc;
+        }
+
+        .option-card.active {
+            border-color: var(--accent);
+            background-color: #f0f8ff;
+        }
+
+        .option-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .option-price {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Counter */
+        .counter-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f5f5f7;
+            padding: 15px 20px;
+            border-radius: 12px;
+        }
+
+        .counter-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .btn-circle {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: none;
+            background: #e5e5ea;
+            color: var(--text-main);
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .btn-circle:hover {
+            background: #d1d1d6;
+        }
+
+        .dependent-count {
+            font-weight: 600;
+            font-size: 1.2rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Calculator Result */
+        .calculator-result {
+            text-align: center;
+            padding: 20px;
+            background: var(--text-main);
+            color: white;
+            border-radius: 14px;
+            margin-top: 20px;
+        }
+
+        .total-amount {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin: 5px 0;
+        }
+
+        .result-note {
+            font-size: 0.85rem;
+            color: #a1a1a6;
+        }
+
+        /* Checklist */
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e5e5ea;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 15px;
+            cursor: pointer;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--accent);
+            cursor: pointer;
+            margin-top: 2px;
+        }
+
+        .checklist-text {
+            font-size: 1rem;
+            transition: var(--transition);
+            width: 100%;
+        }
+
+        .checklist-subtext {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .checklist-item input:checked + .checklist-text {
+            text-decoration: line-through;
+            color: var(--text-muted);
+        }
+
+        /* Important Alert Badge */
+        .alert-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background-color: #fff0f0;
+            color: #d93025;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 10px;
+            border: 1px solid #ffdbdb;
+        }
+
+        .alert-badge svg {
+            width: 14px;
+            height: 14px;
+            fill: currentColor;
+        }
+
+        /* Download Button */
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 10px;
+            padding: 6px 14px;
+            background-color: #f0f8ff;
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-radius: 20px;
+            transition: var(--transition);
+        }
+
+        .download-btn:hover {
+            background-color: #e0f0ff;
+        }
+
+        .download-btn svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+
+        /* Toggle Switch */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px; width: 18px;
+            left: 3px; bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider { background-color: var(--accent); }
+        input:checked + .slider:before { transform: translateX(20px); }
+
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <div class="language-banner">
+            <label for="lang-select">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="2" y1="12" x2="22" y2="12"></line>
+                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                </svg>
+                Select Language
+            </label>
+            <select id="lang-select" onchange="setLang(this.value)">
+                <option value="en">🇺🇸 English</option>
+                <option value="zh">🇨🇳 中文 (Chinese)</option>
+                <option value="ko">🇰🇷 한국어 (Korean)</option>
+                <option value="th">🇹🇭 ไทย (Thai)</option>
+                <option value="es">🇪🇸 Español (Spanish)</option>
+                <option value="hi">🇮🇳 हिन्दी (Hindi)</option>
+                <option value="bn">🇧🇩 বাংলা (Bengali)</option>
+                <option value="kk">🇰🇿 Қазақша (Kazakh)</option>
+                <option value="tr">🇹🇷 Türkçe (Turkish)</option>
+            </select>
+        </div>
+
+        <header>
+            <h1 id="t-title">Extend your I-20. Simply.</h1>
+            <p class="subtitle" id="t-subtitle">Calculate your required funds and prepare your documents.</p>
+        </header>
+
+        <div class="section">
+            <h2 id="t-step1">1. Choose Your Timeline</h2>
+            <div class="options-grid">
+                <div class="option-card active" id="opt-1year" onclick="setTimeline('1year', 15000)">
+                    <div class="option-title" id="t-opt1">1-Year Extension</div>
+                    <div class="option-price" id="t-opt1desc">$15,000 base requirement</div>
+                </div>
+                <div class="option-card" id="opt-6month" onclick="setTimeline('6month', 7500)">
+                    <div class="option-title" id="t-opt2">6-Month Extension</div>
+                    <div class="option-price" id="t-opt2desc">$7,500 base requirement</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 id="t-step2">2. F-2 Dependents</h2>
+            <p class="subtitle" id="t-step2desc" style="margin-bottom: 15px; font-size: 0.95rem;">Add $3,500 for each dependent joining you.</p>
+            
+            <div class="counter-container">
+                <div id="t-numDep">Number of Dependents</div>
+                <div class="counter-controls">
+                    <button class="btn-circle" onclick="updateDependents(-1)">-</button>
+                    <span class="dependent-count" id="dep-count">0</span>
+                    <button class="btn-circle" onclick="updateDependents(1)">+</button>
+                </div>
+            </div>
+
+            <div class="calculator-result">
+                <div id="t-totalFunds">Total Required Funds</div>
+                <div class="total-amount" id="total-display">$15,000</div>
+                <div class="result-note" id="t-bankNote">Must be available in a bank account</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 id="t-step3">3. Gather Documents</h2>
+            
+            <div class="toggle-container">
+                <span id="t-sponsorQ" style="font-size: 0.95rem; font-weight: 500;">Are you using a sponsor's bank account?</span>
+                <label class="switch">
+                    <input type="checkbox" id="sponsor-toggle" onchange="toggleSponsorForm()">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <label class="checklist-item">
+                <input type="checkbox">
+                <div class="checklist-text">
+                    <strong id="t-doc1">Bank Statement</strong>
+                    <span class="checklist-subtext" id="bank-subtext">Showing at least $15,000 under your name.</span>
+                    <div class="alert-badge">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                        </svg>
+                        <span id="t-bankWarning">Must be from the past 60 days</span>
+                    </div>
+                </div>
+            </label>
+
+            <label class="checklist-item hidden" id="sponsor-doc">
+                <input type="checkbox">
+                <div class="checklist-text">
+                    <strong id="t-doc2">Sponsor Affidavit Form</strong>
+                    <span class="checklist-subtext" id="t-doc2desc">Required because funds are under someone else's name.</span>
+                    <a href="https://drive.google.com/file/d/1rV3Jbkq4Lz75ktgDcuB4n4W-tIpY4EJ4/view?usp=sharing" target="_blank" class="download-btn">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                        </svg>
+                        <span id="t-downloadBtn1">Download Form</span>
+                    </a>
+                </div>
+            </label>
+
+            <label class="checklist-item">
+                <input type="checkbox">
+                <div class="checklist-text">
+                    <strong id="t-doc3">Service Request Form</strong>
+                    <span class="checklist-subtext" id="t-doc3desc">The official form to initiate the extension process.</span>
+                    <a href="https://drive.google.com/file/d/1F-0blkT_LG6OelgaaQ0Da2ITuXdZI9bl/view" target="_blank" class="download-btn">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                        </svg>
+                        <span id="t-downloadBtn2">Download Form</span>
+                    </a>
+                </div>
+            </label>
+        </div>
+    </div>
+
+    <script>
+        // --- Translations Dictionary ---
+        const i18n = {
+            en: {
+                title: "Extend your I-20. Simply.",
+                subtitle: "Calculate your required funds and prepare your documents.",
+                step1: "1. Choose Your Timeline",
+                opt1: "1-Year Extension",
+                opt1desc: "$15,000 base requirement",
+                opt2: "6-Month Extension",
+                opt2desc: "$7,500 base requirement",
+                step2: "2. F-2 Dependents",
+                step2desc: "Add $3,500 for each dependent joining you.",
+                numDep: "Number of Dependents",
+                totalFunds: "Total Required Funds",
+                bankNote: "Must be available in a bank account",
+                step3: "3. Gather Documents",
+                sponsorQ: "Are you using a sponsor's bank account?",
+                doc1: "Bank Statement",
+                bankWarning: "Must be from the past 60 days",
+                doc2: "Sponsor Affidavit Form",
+                doc2desc: "Required because funds are under someone else's name.",
+                downloadBtn: "Download Form",
+                doc3: "Service Request Form",
+                doc3desc: "The official form to initiate the extension process.",
+                dynamicBankTemp: "Showing at least {amount} under {name}.",
+                nameYour: "your name",
+                nameSponsor: "your sponsor's name"
+            },
+            zh: {
+                title: "轻松延长您的 I-20。",
+                subtitle: "计算所需资金并准备您的文件。",
+                step1: "1. 选择您的延期时间",
+                opt1: "1年延期",
+                opt1desc: "基础要求 $15,000",
+                opt2: "6个月延期",
+                opt2desc: "基础要求 $7,500",
+                step2: "2. F-2 家属",
+                step2desc: "每增加一名家属需增加 $3,500。",
+                numDep: "家属人数",
+                totalFunds: "所需资金总额",
+                bankNote: "必须在银行账户中可用",
+                step3: "3. 收集文件",
+                sponsorQ: "您是否使用赞助人的银行账户？",
+                doc1: "银行存款证明",
+                bankWarning: "必须是过去60天内的",
+                doc2: "赞助人宣誓书",
+                doc2desc: "由于资金在他人名下，因此需要此文件。",
+                downloadBtn: "下载表格",
+                doc3: "服务请求表",
+                doc3desc: "用于启动延期流程的正式表格。",
+                dynamicBankTemp: "显示至少 {amount} 在 {name}。",
+                nameYour: "您的名下",
+                nameSponsor: "您的赞助人名下"
+            },
+            ko: {
+                title: "간편한 I-20 연장.",
+                subtitle: "필요한 자금을 계산하고 서류를 준비하세요.",
+                step1: "1. 연장 기간 선택",
+                opt1: "1년 연장",
+                opt1desc: "기본 요구 금액 $15,000",
+                opt2: "6개월 연장",
+                opt2desc: "기본 요구 금액 $7,500",
+                step2: "2. F-2 동반 가족",
+                step2desc: "동반 가족 1인당 $3,500가 추가됩니다.",
+                numDep: "동반 가족 수",
+                totalFunds: "총 필요 자금",
+                bankNote: "은행 계좌에 예치되어 있어야 합니다",
+                step3: "3. 서류 준비",
+                sponsorQ: "재정보증인의 은행 계좌를 사용하십니까?",
+                doc1: "은행 잔고 증명서",
+                bankWarning: "최근 60일 이내의 내역이어야 합니다",
+                doc2: "재정보증 진술서",
+                doc2desc: "자금이 타인 명의로 되어 있어 필요합니다.",
+                downloadBtn: "양식 다운로드",
+                doc3: "서비스 요청서",
+                doc3desc: "연장 절차를 시작하기 위한 공식 양식입니다.",
+                dynamicBankTemp: "{name}로 최소 {amount}가 있음을 증명합니다.",
+                nameYour: "본인 명의",
+                nameSponsor: "보증인 명의"
+            },
+            th: {
+                title: "ต่ออายุ I-20 ของคุณอย่างง่ายดาย",
+                subtitle: "คำนวณเงินทุนที่ต้องใช้และเตรียมเอกสารของคุณ",
+                step1: "1. เลือกระยะเวลาของคุณ",
+                opt1: "ต่ออายุ 1 ปี",
+                opt1desc: "ข้อกำหนดพื้นฐาน $15,000",
+                opt2: "ต่ออายุ 6 เดือน",
+                opt2desc: "ข้อกำหนดพื้นฐาน $7,500",
+                step2: "2. ผู้ติดตาม F-2",
+                step2desc: "เพิ่ม $3,500 สำหรับผู้ติดตามแต่ละคน",
+                numDep: "จำนวนผู้ติดตาม",
+                totalFunds: "เงินทุนรวมที่ต้องการ",
+                bankNote: "ต้องมีอยู่ในบัญชีธนาคาร",
+                step3: "3. รวบรวมเอกสาร",
+                sponsorQ: "คุณใช้บัญชีธนาคารของผู้สนับสนุนหรือไม่?",
+                doc1: "รายการเดินบัญชีธนาคาร",
+                bankWarning: "ต้องออกภายใน 60 วันที่ผ่านมา",
+                doc2: "แบบฟอร์มหนังสือรับรองการสนับสนุน",
+                doc2desc: "จำเป็นเนื่องจากเงินทุนอยู่ในชื่อของบุคคลอื่น",
+                downloadBtn: "ดาวน์โหลดแบบฟอร์ม",
+                doc3: "แบบฟอร์มคำขอบริการ",
+                doc3desc: "แบบฟอร์มอย่างเป็นทางการเพื่อเริ่มกระบวนการต่ออายุ",
+                dynamicBankTemp: "แสดงจำนวนเงินอย่างน้อย {amount} ภายใต้ {name}",
+                nameYour: "ชื่อของคุณ",
+                nameSponsor: "ชื่อผู้สนับสนุนของคุณ"
+            },
+            es: {
+                title: "Extienda su I-20. Simplemente.",
+                subtitle: "Calcule sus fondos requeridos y prepare sus documentos.",
+                step1: "1. Elija su Plazo",
+                opt1: "Extensión de 1 Año",
+                opt1desc: "Requisito base de $15,000",
+                opt2: "Extensión de 6 Meses",
+                opt2desc: "Requisito base de $7,500",
+                step2: "2. Dependientes F-2",
+                step2desc: "Agregue $3,500 por cada dependiente.",
+                numDep: "Número de Dependientes",
+                totalFunds: "Total de Fondos Requeridos",
+                bankNote: "Debe estar disponible en una cuenta bancaria",
+                step3: "3. Reúna los Documentos",
+                sponsorQ: "¿Está utilizando la cuenta bancaria de un patrocinador?",
+                doc1: "Estado de Cuenta Bancario",
+                bankWarning: "Debe ser de los últimos 60 días",
+                doc2: "Declaración del Patrocinador",
+                doc2desc: "Requerido porque los fondos están a nombre de otra persona.",
+                downloadBtn: "Descargar Formulario",
+                doc3: "Formulario de Solicitud",
+                doc3desc: "El formulario oficial para iniciar el proceso de extensión.",
+                dynamicBankTemp: "Mostrando al menos {amount} a {name}.",
+                nameYour: "su nombre",
+                nameSponsor: "nombre de su patrocinador"
+            },
+            hi: {
+                title: "अपना I-20 बढ़ाएँ। बिल्कुल आसानी से।",
+                subtitle: "अपने आवश्यक फंड की गणना करें और अपने दस्तावेज़ तैयार करें।",
+                step1: "1. अपनी समय सीमा चुनें",
+                opt1: "1-वर्ष का विस्तार",
+                opt1desc: "$15,000 मूल आवश्यकता",
+                opt2: "6-महीने का विस्तार",
+                opt2desc: "$7,500 मूल आवश्यकता",
+                step2: "2. F-2 आश्रित",
+                step2desc: "आपके साथ जुड़ने वाले प्रत्येक आश्रित के लिए $3,500 जोड़ें।",
+                numDep: "आश्रितों की संख्या",
+                totalFunds: "कुल आवश्यक फंड",
+                bankNote: "बैंक खाते में उपलब्ध होना चाहिए",
+                step3: "3. दस्तावेज़ एकत्र करें",
+                sponsorQ: "क्या आप प्रायोजक के बैंक खाते का उपयोग कर रहे हैं?",
+                doc1: "बैंक स्टेटमेंट",
+                bankWarning: "पिछले 60 दिनों के भीतर का होना चाहिए",
+                doc2: "प्रायोजक शपथ पत्र (Sponsor Affidavit)",
+                doc2desc: "आवश्यक है क्योंकि धन किसी अन्य व्यक्ति के नाम पर है।",
+                downloadBtn: "फॉर्म डाउनलोड करें",
+                doc3: "सेवा अनुरोध फॉर्म",
+                doc3desc: "विस्तार प्रक्रिया शुरू करने के लिए आधिकारिक फॉर्म।",
+                dynamicBankTemp: "{name} के नाम पर कम से कम {amount} दिखा रहा है।",
+                nameYour: "आपके",
+                nameSponsor: "आपके प्रायोजक"
+            },
+            bn: {
+                title: "আপনার I-20 এক্সটেন্ড করুন। খুব সহজেই।",
+                subtitle: "আপনার প্রয়োজনীয় ফান্ড হিসাব করুন এবং আপনার নথিপত্র প্রস্তুত করুন।",
+                step1: "১. আপনার সময়কাল বেছে নিন",
+                opt1: "১ বছরের এক্সটেনশন",
+                opt1desc: "$15,000 বেস রিকোয়ারমেন্ট",
+                opt2: "৬ মাসের এক্সটেনশন",
+                opt2desc: "$7,500 বেস রিকোয়ারমেন্ট",
+                step2: "২. F-2 ডিপেন্ডেন্ট",
+                step2desc: "আপনার সাথে যোগ দেওয়া প্রতিটি ডিপেন্ডেন্টের জন্য $3,500 যোগ করুন।",
+                numDep: "ডিপেন্ডেন্টের সংখ্যা",
+                totalFunds: "মোট প্রয়োজনীয় ফান্ড",
+                bankNote: "অবশ্যই একটি ব্যাঙ্ক অ্যাকাউন্টে উপলব্ধ থাকতে হবে",
+                step3: "৩. নথিপত্র সংগ্রহ করুন",
+                sponsorQ: "আপনি কি স্পনসরের ব্যাঙ্ক অ্যাকাউন্ট ব্যবহার করছেন?",
+                doc1: "ব্যাঙ্ক স্টেটমেন্ট",
+                bankWarning: "অবশ্যই গত ৬০ দিনের মধ্যে হতে হবে",
+                doc2: "স্পনসর অ্যাফিডেভিট ফর্ম",
+                doc2desc: "প্রয়োজনীয় কারণ ফান্ড অন্য কারও নামে আছে।",
+                downloadBtn: "ফর্ম ডাউনলোড করুন",
+                doc3: "সার্ভিস রিকোয়েস্ট ফর্ম",
+                doc3desc: "এক্সটেনশন প্রক্রিয়া শুরু করার জন্য অফিসিয়াল ফর্ম।",
+                dynamicBankTemp: "{name} এর অধীনে কমপক্ষে {amount} দেখাচ্ছে।",
+                nameYour: "আপনার নাম",
+                nameSponsor: "আপনার স্পনসরের নাম"
+            },
+            kk: {
+                title: "I-20 ұзарту. Өте қарапайым.",
+                subtitle: "Қажетті қаражатты есептеп, құжаттарыңызды дайындаңыз.",
+                step1: "1. Ұзарту мерзімін таңдаңыз",
+                opt1: "1 жылға ұзарту",
+                opt1desc: "$15,000 негізгі талап",
+                opt2: "6 айға ұзарту",
+                opt2desc: "$7,500 негізгі талап",
+                step2: "2. F-2 асырауындағы адамдар",
+                step2desc: "Сізге қосылатын әрбір адам үшін $3,500 қосыңыз.",
+                numDep: "Асырауындағы адамдар саны",
+                totalFunds: "Жалпы қажетті қаражат",
+                bankNote: "Банк шотында қолжетімді болуы тиіс",
+                step3: "3. Құжаттарды жинаңыз",
+                sponsorQ: "Демеушінің банк шотын пайдаланасыз ба?",
+                doc1: "Банк үзіндісі (Statement)",
+                bankWarning: "Соңғы 60 күн ішінде алынған болуы керек",
+                doc2: "Демеушінің кепілгерлік формасы",
+                doc2desc: "Қаражат басқа адамның атында болғандықтан қажет.",
+                downloadBtn: "Форманы жүктеп алу",
+                doc3: "Қызмет сұрау формасы",
+                doc3desc: "Ұзарту процесін бастау үшін ресми форма.",
+                dynamicBankTemp: "{name} атында кемінде {amount} көрсетілуі тиіс.",
+                nameYour: "сіздің",
+                nameSponsor: "демеушіңіздің"
+            },
+            tr: {
+                title: "I-20'nizi Uzatın. Basitçe.",
+                subtitle: "Gerekli fonlarınızı hesaplayın ve belgelerinizi hazırlayın.",
+                step1: "1. Sürenizi Seçin",
+                opt1: "1 Yıllık Uzatma",
+                opt1desc: "$15,000 temel gereksinim",
+                opt2: "6 Aylık Uzatma",
+                opt2desc: "$7,500 temel gereksinim",
+                step2: "2. F-2 Bağımlıları",
+                step2desc: "Size katılan her bağımlı için $3,500 ekleyin.",
+                numDep: "Bağımlı Sayısı",
+                totalFunds: "Gereken Toplam Fon",
+                bankNote: "Bir banka hesabında mevcut olmalıdır",
+                step3: "3. Belgeleri Toplayın",
+                sponsorQ: "Sponsorunuzun banka hesabını mı kullanıyorsunuz?",
+                doc1: "Banka Hesap Özeti",
+                bankWarning: "Son 60 gün içinde alınmış olmalıdır",
+                doc2: "Sponsor Beyan Formu",
+                doc2desc: "Fonlar başkasının adına olduğu için gereklidir.",
+                downloadBtn: "Formu İndir",
+                doc3: "Hizmet Talep Formu",
+                doc3desc: "Uzatma sürecini başlatmak için resmi form.",
+                dynamicBankTemp: "{name} adına en az {amount} gösteriliyor.",
+                nameYour: "kendi",
+                nameSponsor: "sponsorunuzun"
+            }
+        };
+
+        // --- Logic & State ---
+        let baseAmount = 15000;
+        let dependents = 0;
+        const dependentCost = 3500;
+        let currentLang = 'en';
+
+        function setLang(lang) {
+            currentLang = lang;
+
+            // Map and inject translations
+            const t = i18n[lang];
+            document.getElementById('t-title').innerText = t.title;
+            document.getElementById('t-subtitle').innerText = t.subtitle;
+            document.getElementById('t-step1').innerText = t.step1;
+            document.getElementById('t-opt1').innerText = t.opt1;
+            document.getElementById('t-opt1desc').innerText = t.opt1desc;
+            document.getElementById('t-opt2').innerText = t.opt2;
+            document.getElementById('t-opt2desc').innerText = t.opt2desc;
+            document.getElementById('t-step2').innerText = t.step2;
+            document.getElementById('t-step2desc').innerText = t.step2desc;
+            document.getElementById('t-numDep').innerText = t.numDep;
+            document.getElementById('t-totalFunds').innerText = t.totalFunds;
+            document.getElementById('t-bankNote').innerText = t.bankNote;
+            document.getElementById('t-step3').innerText = t.step3;
+            document.getElementById('t-sponsorQ').innerText = t.sponsorQ;
+            document.getElementById('t-doc1').innerText = t.doc1;
+            document.getElementById('t-bankWarning').innerText = t.bankWarning;
+            document.getElementById('t-doc2').innerText = t.doc2;
+            document.getElementById('t-doc2desc').innerText = t.doc2desc;
+            
+            // Translate both download buttons
+            document.getElementById('t-downloadBtn1').innerText = t.downloadBtn;
+            document.getElementById('t-downloadBtn2').innerText = t.downloadBtn;
+            
+            document.getElementById('t-doc3').innerText = t.doc3;
+            document.getElementById('t-doc3desc').innerText = t.doc3desc;
+
+            // Update Dynamic Strings
+            calculateTotal(); 
+        }
+
+        function setTimeline(type, amount) {
+            document.getElementById('opt-1year').classList.remove('active');
+            document.getElementById('opt-6month').classList.remove('active');
+            document.getElementById('opt-' + type).classList.add('active');
+
+            baseAmount = amount;
+            calculateTotal();
+        }
+
+        function updateDependents(change) {
+            let newVal = dependents + change;
+            if (newVal >= 0 && newVal <= 10) { 
+                dependents = newVal;
+                document.getElementById('dep-count').innerText = dependents;
+                calculateTotal();
+            }
+        }
+
+        function calculateTotal() {
+            let total = baseAmount + (dependents * dependentCost);
+            let formattedTotal = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(total);
+            
+            document.getElementById('total-display').innerText = formattedTotal;
+            
+            // Build translated dynamic string for bank description
+            let t = i18n[currentLang];
+            let isSponsor = document.getElementById('sponsor-toggle').checked;
+            let targetName = isSponsor ? t.nameSponsor : t.nameYour;
+            
+            let dynamicText = t.dynamicBankTemp.replace("{amount}", formattedTotal).replace("{name}", targetName);
+            document.getElementById('bank-subtext').innerText = dynamicText;
+        }
+
+        function toggleSponsorForm() {
+            let sponsorDoc = document.getElementById('sponsor-doc');
+            let isChecked = document.getElementById('sponsor-toggle').checked;
+            
+            if (isChecked) {
+                sponsorDoc.classList.remove('hidden');
+            } else {
+                sponsorDoc.classList.add('hidden');
+                sponsorDoc.querySelector('input').checked = false; 
+            }
+            calculateTotal();
+        }
+
+        // Run once to initialize
+        calculateTotal();
+    </script>
+</body>
+</html>
