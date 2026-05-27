@@ -6,21 +6,26 @@
     <title>I-20 Extension Guide</title>
     <style>
         :root {
-            --bg-color: #f5f5f7;
-            --card-bg: #ffffff;
-            --text-main: #1d1d1f;
-            --text-muted: #86868b;
-            --accent: #0071e3;
-            --accent-hover: #005cbf;
-            --border-radius: 18px;
-            --transition: all 0.3s ease;
+            --bg-color: #f4f5f7;
+            --text-main: #050411;
+            --text-muted: #4a5568;
+            --accent: #050411;
+            --border-radius: 0px; /* Keeping the sharp brutalist edge */
+            --transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+            
+            /* Glassmorphism Variables */
+            --glass-bg-light: rgba(255, 255, 255, 0.55);
+            --glass-bg-dark: rgba(5, 4, 17, 0.85);
+            --glass-border: rgba(5, 4, 17, 0.15);
+            --glass-highlight: rgba(255, 255, 255, 0.6);
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
         }
 
         body {
@@ -29,139 +34,211 @@
             line-height: 1.5;
             display: flex;
             justify-content: center;
-            padding: 40px 20px;
+            padding: 60px 20px;
+            position: relative;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Animated Background Orbs to show off the glass effect */
+        body::before, body::after {
+            content: '';
+            position: fixed;
+            width: 50vw;
+            height: 50vw;
+            border-radius: 50%;
+            z-index: -1;
+            filter: blur(80px);
+            opacity: 0.5;
+            animation: float 15s infinite alternate ease-in-out;
+        }
+
+        body::before {
+            background: #cbd8f5;
+            top: -10%;
+            left: -10%;
+        }
+
+        body::after {
+            background: #e2d4f5;
+            bottom: -10%;
+            right: -10%;
+            animation-delay: -7.5s;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(10%, 15%) scale(1.1); }
         }
 
         .container {
-            max-width: 600px;
+            max-width: 680px;
             width: 100%;
-            animation: fadeIn 0.8s ease-out;
+            animation: fadeUp 0.8s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+            opacity: 0;
+            transform: translateY(20px);
+            position: relative;
+            z-index: 1;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+        @keyframes fadeUp {
             to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Glass Panels Base Utility */
+        .glass-panel {
+            background: var(--glass-bg-light);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid var(--text-main);
+            box-shadow: inset 0 0 0 1px var(--glass-highlight), 0 8px 32px rgba(0, 0, 0, 0.05);
         }
 
         /* Prominent Language Banner */
         .language-banner {
-            background: var(--card-bg);
-            border-radius: var(--border-radius);
             padding: 24px;
-            margin-bottom: 40px;
-            box-shadow: 0 10px 30px rgba(0, 113, 227, 0.12);
-            border: 2px solid rgba(0, 113, 227, 0.2);
+            margin-bottom: 60px;
             text-align: center;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 12px;
+            gap: 16px;
+            transition: var(--transition);
+        }
+
+        .language-banner:hover {
+            box-shadow: 4px 4px 0px var(--text-main), inset 0 0 0 1px var(--glass-highlight);
+            transform: translate(-2px, -2px);
+            background: rgba(255, 255, 255, 0.7);
         }
 
         .language-banner label {
             font-size: 1.15rem;
-            font-weight: 600;
+            font-weight: 700;
             color: var(--text-main);
             display: flex;
             align-items: center;
             gap: 8px;
             cursor: pointer;
+            letter-spacing: -0.01em;
         }
 
         .language-banner select {
             appearance: none;
-            background-color: #f0f8ff;
-            border: 2px solid var(--accent);
-            color: var(--accent);
+            background-color: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--text-main);
+            color: var(--text-main);
             font-size: 1.05rem;
             font-weight: 600;
-            padding: 12px 40px 12px 20px;
-            border-radius: 14px;
+            padding: 16px 48px 16px 24px;
             cursor: pointer;
             width: 100%;
             max-width: 350px;
-            text-align: center;
-            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%230071e3%22%20stroke-width%3D%222.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E");
+            text-align: left;
+            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23050411%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22square%22%20stroke-linejoin%3D%22miter%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E");
             background-repeat: no-repeat;
-            background-position: right 15px top 50%;
+            background-position: right 16px top 50%;
             background-size: 16px auto;
             transition: var(--transition);
         }
 
-        .language-banner select:hover {
-            background-color: #e0f0ff;
-        }
-
-        .language-banner select:focus {
+        .language-banner select:hover, .language-banner select:focus {
             outline: none;
-            box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.3);
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 0 0 1px var(--text-main);
         }
 
         header {
-            text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 60px;
         }
 
         h1 {
-            font-size: 2.5rem;
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
             font-weight: 700;
-            letter-spacing: -0.02em;
-            margin-bottom: 8px;
+            letter-spacing: -0.03em;
+            margin-bottom: 16px;
+            line-height: 1.1;
         }
 
         p.subtitle {
             color: var(--text-muted);
-            font-size: 1.1rem;
+            font-size: 1.25rem;
+            letter-spacing: -0.01em;
         }
 
         .section {
-            background: var(--card-bg);
-            border-radius: var(--border-radius);
-            padding: 30px;
-            margin-bottom: 24px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+            margin-bottom: 60px;
+            padding: 32px 0 0 0;
+            border-top: none;
+        }
+
+        /* The glass applies to the inner wrappers of sections for better compartmentalization */
+        .section-glass-wrap {
+            padding: 32px;
+            margin-top: 16px;
         }
 
         h2 {
-            font-size: 1.25rem;
-            margin-bottom: 20px;
-            font-weight: 600;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 24px;
         }
 
         /* Interactive Timeline Options */
         .options-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+        
+        @media (min-width: 480px) {
+            .options-grid {
+                grid-template-columns: 1fr 1fr;
+            }
         }
 
         .option-card {
-            border: 2px solid #e5e5ea;
-            border-radius: 14px;
-            padding: 20px;
+            border: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.4);
+            padding: 24px;
             cursor: pointer;
-            text-align: center;
             transition: var(--transition);
+            position: relative;
         }
 
         .option-card:hover {
-            border-color: #c7c7cc;
+            border-color: var(--text-main);
+            background: rgba(255, 255, 255, 0.7);
+            box-shadow: 4px 4px 0px var(--text-main);
+            transform: translate(-2px, -2px);
         }
 
         .option-card.active {
-            border-color: var(--accent);
-            background-color: #f0f8ff;
+            border-color: var(--text-main);
+            background-color: var(--text-main);
+            color: #fff;
+            box-shadow: none;
+            transform: translate(0, 0);
+        }
+
+        .option-card.active .option-price {
+            color: #a1a1a6;
         }
 
         .option-title {
-            font-weight: 600;
-            font-size: 1.1rem;
-            margin-bottom: 5px;
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin-bottom: 8px;
+            letter-spacing: -0.01em;
         }
 
         .option-price {
             color: var(--text-muted);
-            font-size: 0.9rem;
+            font-size: 0.95rem;
+            transition: var(--transition);
         }
 
         /* Counter */
@@ -169,25 +246,25 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background: #f5f5f7;
-            padding: 15px 20px;
-            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.3);
+            padding: 24px 0;
+            border-bottom: 1px solid var(--glass-border);
         }
 
         .counter-controls {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 20px;
         }
 
         .btn-circle {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            border: none;
-            background: #e5e5ea;
+            width: 44px;
+            height: 44px;
+            border: 1px solid var(--text-main);
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(4px);
             color: var(--text-main);
-            font-size: 1.2rem;
+            font-size: 1.5rem;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -196,35 +273,59 @@
         }
 
         .btn-circle:hover {
-            background: #d1d1d6;
+            box-shadow: 3px 3px 0px var(--text-main);
+            transform: translate(-2px, -2px);
+            background: rgba(255, 255, 255, 0.9);
+        }
+        
+        .btn-circle:active {
+            background: var(--text-main);
+            color: #fff;
+            box-shadow: none;
+            transform: translate(0, 0);
         }
 
         .dependent-count {
-            font-weight: 600;
-            font-size: 1.2rem;
-            width: 20px;
+            font-weight: 700;
+            font-size: 1.5rem;
+            width: 24px;
             text-align: center;
         }
 
-        /* Calculator Result */
+        /* Dark Glass Calculator Result */
         .calculator-result {
-            text-align: center;
-            padding: 20px;
-            background: var(--text-main);
+            padding: 40px;
+            background: var(--glass-bg-dark);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255,255,255,0.1);
             color: white;
-            border-radius: 14px;
-            margin-top: 20px;
+            margin-top: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            transition: transform 0.2s ease;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .calculator-result > div:first-child {
+            font-size: 1.1rem;
+            color: #a1a1a6;
+            font-weight: 500;
         }
 
         .total-amount {
-            font-size: 2.5rem;
+            font-size: clamp(3rem, 8vw, 4.5rem);
             font-weight: 700;
-            letter-spacing: -0.02em;
-            margin: 5px 0;
+            letter-spacing: -0.03em;
+            line-height: 1;
+            margin: 8px 0;
+            font-variant-numeric: tabular-nums;
+            text-shadow: 0 2px 10px rgba(255,255,255,0.1);
         }
 
         .result-note {
-            font-size: 0.85rem;
+            font-size: 0.95rem;
             color: #a1a1a6;
         }
 
@@ -232,99 +333,172 @@
         .toggle-container {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 20px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #e5e5ea;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid var(--glass-border);
         }
 
         .checklist-item {
             display: flex;
             align-items: flex-start;
-            gap: 15px;
-            margin-bottom: 15px;
+            gap: 20px;
+            margin-bottom: 24px;
             cursor: pointer;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid transparent;
+            transition: var(--transition);
         }
 
+        .checklist-item:hover {
+            border-color: var(--glass-border);
+            background: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Custom Checkbox */
         .checklist-item input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
-            accent-color: var(--accent);
+            appearance: none;
+            background-color: rgba(255, 255, 255, 0.5);
+            margin: 4px 0 0 0;
+            font: inherit;
+            color: currentColor;
+            width: 24px;
+            height: 24px;
+            border: 1px solid var(--text-main);
+            display: grid;
+            place-content: center;
             cursor: pointer;
-            margin-top: 2px;
+            flex-shrink: 0;
+            transition: var(--transition);
+        }
+
+        .checklist-item input[type="checkbox"]::before {
+            content: "";
+            width: 14px;
+            height: 14px;
+            transform: scale(0);
+            transition: 120ms transform ease-in-out;
+            background-color: var(--text-main);
+        }
+
+        .checklist-item input[type="checkbox"]:checked::before {
+            transform: scale(1);
         }
 
         .checklist-text {
-            font-size: 1rem;
+            font-size: 1.1rem;
             transition: var(--transition);
             width: 100%;
         }
 
+        .checklist-text strong {
+            font-size: 1.25rem;
+            letter-spacing: -0.01em;
+            display: block;
+            margin-bottom: 4px;
+        }
+
         .checklist-subtext {
             display: block;
-            font-size: 0.85rem;
+            font-size: 0.95rem;
             color: var(--text-muted);
-            margin-top: 2px;
+            line-height: 1.5;
         }
 
         .checklist-item input:checked + .checklist-text {
+            opacity: 0.4;
+        }
+
+        .checklist-item input:checked + .checklist-text strong {
             text-decoration: line-through;
-            color: var(--text-muted);
+        }
+
+        /* Sponsor Expansion Smoothness */
+        #sponsor-doc-wrap {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.5s ease;
+        }
+
+        #sponsor-doc-wrap.expanded {
+            max-height: 300px;
+            opacity: 1;
         }
 
         /* Important Alert Badge */
         .alert-badge {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            background-color: #fff0f0;
-            color: #d93025;
-            padding: 6px 12px;
-            border-radius: 8px;
+            gap: 8px;
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(4px);
+            color: var(--text-main);
+            padding: 8px 16px;
             font-size: 0.85rem;
             font-weight: 600;
-            margin-top: 10px;
-            border: 1px solid #ffdbdb;
+            margin-top: 16px;
+            border: 1px solid var(--text-main);
+            letter-spacing: -0.01em;
         }
 
         .alert-badge svg {
-            width: 14px;
-            height: 14px;
-            fill: currentColor;
+            width: 16px;
+            height: 16px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
         }
 
-        /* Download Button */
+        /* Download Button - Text link style */
         .download-btn {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            margin-top: 10px;
-            padding: 6px 14px;
-            background-color: #f0f8ff;
-            color: var(--accent);
+            gap: 8px;
+            margin-top: 16px;
+            color: var(--text-main);
             text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 600;
-            border-radius: 20px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
             transition: var(--transition);
+            position: relative;
         }
 
-        .download-btn:hover {
-            background-color: #e0f0ff;
+        .download-btn::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 1px;
+            background: var(--text-main);
+            transition: width 0.3s ease;
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+        }
+
+        .download-btn:hover::after {
+            width: 100%;
         }
 
         .download-btn svg {
             width: 16px;
             height: 16px;
             fill: currentColor;
+            transition: transform 0.3s ease;
+        }
+
+        .download-btn:hover svg {
+            transform: translateX(4px);
         }
 
         /* Toggle Switch */
         .switch {
             position: relative;
             display: inline-block;
-            width: 44px;
-            height: 24px;
+            width: 50px;
+            height: 28px;
             flex-shrink: 0;
         }
         .switch input { opacity: 0; width: 0; height: 0; }
@@ -332,32 +506,83 @@
             position: absolute;
             cursor: pointer;
             top: 0; left: 0; right: 0; bottom: 0;
-            background-color: #ccc;
+            background-color: rgba(255, 255, 255, 0.5);
+            border: 1px solid var(--glass-border);
             transition: .4s;
-            border-radius: 24px;
         }
         .slider:before {
             position: absolute;
             content: "";
-            height: 18px; width: 18px;
+            height: 20px; width: 20px;
             left: 3px; bottom: 3px;
             background-color: white;
             transition: .4s;
-            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
-        input:checked + .slider { background-color: var(--accent); }
-        input:checked + .slider:before { transform: translateX(20px); }
+        input:checked + .slider { 
+            background-color: var(--text-main); 
+            border-color: var(--text-main);
+        }
+        input:checked + .slider:before { 
+            transform: translateX(22px); 
+            background-color: #fff;
+        }
 
-        .hidden { display: none !important; }
+        /* Progress Bar */
+        .progress-container {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid var(--glass-border);
+        }
+        
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+            letter-spacing: -0.01em;
+        }
+
+        .progress-track {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid var(--glass-border);
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--text-main);
+            width: 0%;
+            transition: width 0.5s cubic-bezier(0.19, 1, 0.22, 1), background-color 0.3s;
+        }
+
+        .progress-success-text {
+            color: #000;
+            font-weight: 700;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: var(--transition);
+            display: none;
+        }
+
+        .progress-success-text.visible {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
     </style>
 </head>
 <body>
 
     <div class="container">
         
-        <div class="language-banner">
+        <div class="language-banner glass-panel">
             <label for="lang-select">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter">
                     <circle cx="12" cy="12" r="10"></circle>
                     <line x1="2" y1="12" x2="22" y2="12"></line>
                     <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
@@ -365,15 +590,15 @@
                 Select Language
             </label>
             <select id="lang-select" onchange="setLang(this.value)">
-                <option value="en">🇺🇸 English</option>
-                <option value="zh">🇨🇳 中文 (Chinese)</option>
-                <option value="ko">🇰🇷 한국어 (Korean)</option>
-                <option value="th">🇹🇭 ไทย (Thai)</option>
-                <option value="es">🇪🇸 Español (Spanish)</option>
-                <option value="hi">🇮🇳 हिन्दी (Hindi)</option>
-                <option value="bn">🇧🇩 বাংলা (Bengali)</option>
-                <option value="kk">🇰🇿 Қазақша (Kazakh)</option>
-                <option value="tr">🇹🇷 Türkçe (Turkish)</option>
+                <option value="en">English</option>
+                <option value="zh">中文 (Chinese)</option>
+                <option value="ko">한국어 (Korean)</option>
+                <option value="th">ไทย (Thai)</option>
+                <option value="es">Español (Spanish)</option>
+                <option value="hi">हिन्दी (Hindi)</option>
+                <option value="bn">বাংলা (Bengali)</option>
+                <option value="kk">Қазақша (Kazakh)</option>
+                <option value="tr">Türkçe (Turkish)</option>
             </select>
         </div>
 
@@ -383,7 +608,7 @@
         </header>
 
         <div class="section">
-            <h2 id="t-step1">1. Choose Your Timeline</h2>
+            <h2>1. Choose Your Timeline</h2>
             <div class="options-grid">
                 <div class="option-card active" id="opt-1year" onclick="setTimeline('1year', 15000)">
                     <div class="option-title" id="t-opt1">1-Year Extension</div>
@@ -397,19 +622,19 @@
         </div>
 
         <div class="section">
-            <h2 id="t-step2">2. F-2 Dependents</h2>
-            <p class="subtitle" id="t-step2desc" style="margin-bottom: 15px; font-size: 0.95rem;">Add $3,500 for each dependent joining you.</p>
+            <h2>2. F-2 Dependents</h2>
+            <p class="subtitle" id="t-step2desc" style="margin-bottom: 24px; font-size: 1.1rem;">Add $3,500 for each dependent joining you.</p>
             
             <div class="counter-container">
-                <div id="t-numDep">Number of Dependents</div>
+                <div id="t-numDep" style="font-weight: 700; font-size: 1.1rem;">Number of Dependents</div>
                 <div class="counter-controls">
-                    <button class="btn-circle" onclick="updateDependents(-1)">-</button>
+                    <button class="btn-circle" onclick="updateDependents(-1)" aria-label="Decrease dependents">-</button>
                     <span class="dependent-count" id="dep-count">0</span>
-                    <button class="btn-circle" onclick="updateDependents(1)">+</button>
+                    <button class="btn-circle" onclick="updateDependents(1)" aria-label="Increase dependents">+</button>
                 </div>
             </div>
 
-            <div class="calculator-result">
+            <div class="calculator-result" id="calc-box">
                 <div id="t-totalFunds">Total Required Funds</div>
                 <div class="total-amount" id="total-display">$15,000</div>
                 <div class="result-note" id="t-bankNote">Must be available in a bank account</div>
@@ -417,62 +642,81 @@
         </div>
 
         <div class="section">
-            <h2 id="t-step3">3. Gather Documents</h2>
+            <h2>3. Gather Documents</h2>
             
-            <div class="toggle-container">
-                <span id="t-sponsorQ" style="font-size: 0.95rem; font-weight: 500;">Are you using a sponsor's bank account?</span>
-                <label class="switch">
-                    <input type="checkbox" id="sponsor-toggle" onchange="toggleSponsorForm()">
-                    <span class="slider"></span>
-                </label>
-            </div>
+            <div class="glass-panel section-glass-wrap">
+                <div class="toggle-container">
+                    <span id="t-sponsorQ" style="font-size: 1.1rem; font-weight: 700;">Are you using a sponsor's bank account?</span>
+                    <label class="switch">
+                        <input type="checkbox" id="sponsor-toggle" onchange="toggleSponsorForm()">
+                        <span class="slider"></span>
+                    </label>
+                </div>
 
-            <label class="checklist-item">
-                <input type="checkbox">
-                <div class="checklist-text">
-                    <strong id="t-doc1">Bank Statement</strong>
-                    <span class="checklist-subtext" id="bank-subtext">Showing at least $15,000 under your name.</span>
-                    <div class="alert-badge">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
-                        </svg>
-                        <span id="t-bankWarning">Must be from the past 60 days</span>
+                <label class="checklist-item">
+                    <input type="checkbox" class="doc-checkbox" onchange="updateProgress()">
+                    <div class="checklist-text">
+                        <strong id="t-doc1">Bank Statement</strong>
+                        <span class="checklist-subtext" id="bank-subtext">Showing at least $15,000 under your name.</span>
+                        <div class="alert-badge">
+                            <svg viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="12" y1="8" x2="12" y2="12"></line>
+                                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                            </svg>
+                            <span id="t-bankWarning">Must be from the past 60 days</span>
+                        </div>
+                    </div>
+                </label>
+
+                <div id="sponsor-doc-wrap">
+                    <label class="checklist-item">
+                        <input type="checkbox" id="sponsor-checkbox" class="doc-checkbox sponsor-req" onchange="updateProgress()">
+                        <div class="checklist-text">
+                            <strong id="t-doc2">Sponsor Affidavit Form</strong>
+                            <span class="checklist-subtext" id="t-doc2desc">Required because funds are under someone else's name.</span>
+                            <div style="display: block;">
+                                <a href="https://drive.google.com/file/d/1rV3Jbkq4Lz75ktgDcuB4n4W-tIpY4EJ4/view?usp=sharing" target="_blank" class="download-btn">
+                                    <span id="t-downloadBtn1">Download Form</span>
+                                    <svg viewBox="0 0 24 24">
+                                        <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter"/>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </label>
+                </div>
+
+                <label class="checklist-item">
+                    <input type="checkbox" class="doc-checkbox" onchange="updateProgress()">
+                    <div class="checklist-text">
+                        <strong id="t-doc3">Service Request Form</strong>
+                        <span class="checklist-subtext" id="t-doc3desc">The official form to initiate the extension process.</span>
+                        <div style="display: block;">
+                            <a href="https://drive.google.com/file/d/1F-0blkT_LG6OelgaaQ0Da2ITuXdZI9bl/view" target="_blank" class="download-btn">
+                                <span id="t-downloadBtn2">Download Form</span>
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </label>
+
+                <div class="progress-container">
+                    <div class="progress-header">
+                        <span id="progress-status">Documents Ready: <span id="ready-count">0</span> / <span id="total-docs">2</span></span>
+                        <span class="progress-success-text" id="success-text">Ready to Apply! ✓</span>
+                    </div>
+                    <div class="progress-track">
+                        <div class="progress-fill" id="progress-fill"></div>
                     </div>
                 </div>
-            </label>
-
-            <label class="checklist-item hidden" id="sponsor-doc">
-                <input type="checkbox">
-                <div class="checklist-text">
-                    <strong id="t-doc2">Sponsor Affidavit Form</strong>
-                    <span class="checklist-subtext" id="t-doc2desc">Required because funds are under someone else's name.</span>
-                    <a href="https://drive.google.com/file/d/1rV3Jbkq4Lz75ktgDcuB4n4W-tIpY4EJ4/view?usp=sharing" target="_blank" class="download-btn">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
-                        </svg>
-                        <span id="t-downloadBtn1">Download Form</span>
-                    </a>
-                </div>
-            </label>
-
-            <label class="checklist-item">
-                <input type="checkbox">
-                <div class="checklist-text">
-                    <strong id="t-doc3">Service Request Form</strong>
-                    <span class="checklist-subtext" id="t-doc3desc">The official form to initiate the extension process.</span>
-                    <a href="https://drive.google.com/file/d/1F-0blkT_LG6OelgaaQ0Da2ITuXdZI9bl/view" target="_blank" class="download-btn">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
-                        </svg>
-                        <span id="t-downloadBtn2">Download Form</span>
-                    </a>
-                </div>
-            </label>
+            </div>
         </div>
     </div>
 
     <script>
-        // --- Translations Dictionary ---
         const i18n = {
             en: {
                 title: "Extend your I-20. Simply.",
@@ -715,11 +959,11 @@
         let dependents = 0;
         const dependentCost = 3500;
         let currentLang = 'en';
+        let currentDisplayedTotal = 15000;
 
         function setLang(lang) {
             currentLang = lang;
 
-            // Map and inject translations
             const t = i18n[lang];
             document.getElementById('t-title').innerText = t.title;
             document.getElementById('t-subtitle').innerText = t.subtitle;
@@ -740,15 +984,33 @@
             document.getElementById('t-doc2').innerText = t.doc2;
             document.getElementById('t-doc2desc').innerText = t.doc2desc;
             
-            // Translate both download buttons
             document.getElementById('t-downloadBtn1').innerText = t.downloadBtn;
             document.getElementById('t-downloadBtn2').innerText = t.downloadBtn;
             
             document.getElementById('t-doc3').innerText = t.doc3;
             document.getElementById('t-doc3desc').innerText = t.doc3desc;
 
-            // Update Dynamic Strings
-            calculateTotal(); 
+            updateBankSubtext(baseAmount + (dependents * dependentCost)); 
+        }
+
+        // Ticker Animation Function
+        function animateValue(obj, start, end, duration) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                const easeOut = 1 - Math.pow(1 - progress, 3);
+                const current = Math.floor(easeOut * (end - start) + start);
+                
+                obj.innerText = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(current);
+                
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                } else {
+                    currentDisplayedTotal = end; 
+                }
+            };
+            window.requestAnimationFrame(step);
         }
 
         function setTimeline(type, amount) {
@@ -764,18 +1026,30 @@
             let newVal = dependents + change;
             if (newVal >= 0 && newVal <= 10) { 
                 dependents = newVal;
-                document.getElementById('dep-count').innerText = dependents;
+                
+                let countEl = document.getElementById('dep-count');
+                countEl.style.transform = "scale(1.2)";
+                setTimeout(() => countEl.style.transform = "scale(1)", 150);
+                
+                countEl.innerText = dependents;
                 calculateTotal();
             }
         }
 
         function calculateTotal() {
-            let total = baseAmount + (dependents * dependentCost);
-            let formattedTotal = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(total);
+            let targetTotal = baseAmount + (dependents * dependentCost);
+            let displayEl = document.getElementById('total-display');
             
-            document.getElementById('total-display').innerText = formattedTotal;
-            
-            // Build translated dynamic string for bank description
+            let box = document.getElementById('calc-box');
+            box.style.transform = "scale(1.02)";
+            setTimeout(() => box.style.transform = "scale(1)", 150);
+
+            animateValue(displayEl, currentDisplayedTotal, targetTotal, 600);
+            updateBankSubtext(targetTotal);
+        }
+
+        function updateBankSubtext(totalNum) {
+            let formattedTotal = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(totalNum);
             let t = i18n[currentLang];
             let isSponsor = document.getElementById('sponsor-toggle').checked;
             let targetName = isSponsor ? t.nameSponsor : t.nameYour;
@@ -785,20 +1059,52 @@
         }
 
         function toggleSponsorForm() {
-            let sponsorDoc = document.getElementById('sponsor-doc');
+            let sponsorWrap = document.getElementById('sponsor-doc-wrap');
             let isChecked = document.getElementById('sponsor-toggle').checked;
             
             if (isChecked) {
-                sponsorDoc.classList.remove('hidden');
+                sponsorWrap.classList.add('expanded');
             } else {
-                sponsorDoc.classList.add('hidden');
-                sponsorDoc.querySelector('input').checked = false; 
+                sponsorWrap.classList.remove('expanded');
+                document.getElementById('sponsor-checkbox').checked = false; 
             }
-            calculateTotal();
+            updateBankSubtext(baseAmount + (dependents * dependentCost));
+            updateProgress();
         }
 
-        // Run once to initialize
-        calculateTotal();
+        function updateProgress() {
+            let checkboxes = document.querySelectorAll('.doc-checkbox');
+            let totalDocs = 0;
+            let checkedDocs = 0;
+
+            let isSponsor = document.getElementById('sponsor-toggle').checked;
+
+            checkboxes.forEach(cb => {
+                if (cb.classList.contains('sponsor-req') && !isSponsor) return;
+                
+                totalDocs++;
+                if (cb.checked) checkedDocs++;
+            });
+
+            document.getElementById('total-docs').innerText = totalDocs;
+            document.getElementById('ready-count').innerText = checkedDocs;
+
+            let percentage = (checkedDocs / totalDocs) * 100;
+            let fillEl = document.getElementById('progress-fill');
+            fillEl.style.width = percentage + "%";
+
+            let successText = document.getElementById('success-text');
+            if (percentage === 100) {
+                fillEl.style.backgroundColor = "#00c853"; 
+                successText.classList.add('visible');
+            } else {
+                fillEl.style.backgroundColor = "var(--text-main)";
+                successText.classList.remove('visible');
+            }
+        }
+
+        updateBankSubtext(currentDisplayedTotal);
+        updateProgress();
     </script>
 </body>
 </html>
