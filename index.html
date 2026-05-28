@@ -32,17 +32,52 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            /* Prevents text from overflowing its container on mobile */
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
         body {
             font-family: var(--font-main);
-            background-color: var(--bg-color);
+            /* Background color moved to overlay to let video show through */
+            background-color: transparent; 
             color: var(--text-color);
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
             cursor: none; 
-            transition: background-color 0.8s var(--transition-smooth), color 0.8s var(--transition-smooth);
+            transition: color 0.8s var(--transition-smooth);
             line-height: 1.5;
+        }
+
+        /* --- FULL PAGE VIDEO BACKGROUND --- */
+        .full-page-video-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -10;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .full-page-video-wrapper video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensures the video covers the entire screen */
+            transform: scale(1.05); /* Slight scale to hide edge artifacts */
+        }
+
+        /* Thematic overlay to ensure text readability and preserve your light/dark design */
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-color);
+            opacity: 0.88; /* Lets the water show through subtly */
+            transition: background-color 0.8s var(--transition-smooth);
         }
 
         /* Dual Cursor System */
@@ -239,41 +274,6 @@
         
         @keyframes fadeIn { to { opacity: 1; } }
 
-        /* Video Background Blob */
-        .video-blob-bg {
-            position: absolute;
-            right: -5%;
-            top: 15%;
-            width: 550px;
-            height: 550px;
-            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-            overflow: hidden;
-            z-index: 0;
-            opacity: 0.95;
-            animation: morphShape 15s ease-in-out infinite alternate;
-            transition: opacity 0.8s var(--transition-smooth);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.1);
-        }
-        
-        .video-blob-bg video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            pointer-events: none;
-        }
-
-        [data-theme="dark"] .video-blob-bg {
-            opacity: 0.5;
-        }
-
-        @keyframes morphShape {
-            0% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
-            34% { border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%; }
-            67% { border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%; }
-            100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
-        }
-
         /* Section Components */
         .section-header {
             font-size: clamp(2rem, 5vw, 3.5rem);
@@ -301,6 +301,7 @@
             transition: all 0.4s var(--transition-smooth);
             position: relative;
             overflow: hidden;
+            background-color: transparent;
         }
         
         .option-card::before {
@@ -328,7 +329,7 @@
             justify-content: space-between;
             padding: 2rem 0;
             border-bottom: 1px solid var(--accent-color);
-            flex-wrap: wrap; /* Allow wrapping on small screens */
+            flex-wrap: wrap; 
             gap: 1rem;
         }
         
@@ -353,6 +354,7 @@
             font-size: clamp(1.2rem, 3vw, 1.5rem); 
             transition: all 0.3s ease;
             color: var(--text-color);
+            flex-shrink: 0;
         }
         
         .btn-circle:hover { background: var(--text-color); color: var(--bg-color); }
@@ -388,14 +390,15 @@
             margin-bottom: 3rem; 
             padding-bottom: 2rem; 
             border-bottom: 1px solid var(--accent-color);
-            flex-wrap: wrap; /* Prevent squishing */
-            gap: 1rem;
+            flex-wrap: wrap; 
+            gap: 1.5rem;
         }
         
         .toggle-label { 
             font-family: var(--font-display); 
             font-size: clamp(1.2rem, 3vw, 1.5rem); 
-            font-weight: 600; 
+            font-weight: 600;
+            flex: 1;
         }
         
         .switch { position: relative; display: inline-block; width: 60px; height: 32px; flex-shrink: 0; }
@@ -428,6 +431,7 @@
             border-radius: 4px;
             display: grid; place-content: center;
             margin-top: 4px; transition: all 0.3s ease;
+            flex-shrink: 0; /* Important for mobile: keeps checkbox from squishing */
         }
         .checklist-item input[type="checkbox"]::before {
             content: ""; 
@@ -441,7 +445,7 @@
         }
         .checklist-item input[type="checkbox"]:checked::before { transform: scale(1); }
 
-        .checklist-text { width: 100%; transition: opacity 0.3s; }
+        .checklist-text { width: 100%; transition: opacity 0.3s; flex: 1; }
         .checklist-text strong {
             font-family: var(--font-display); 
             font-size: clamp(1.2rem, 3vw, 1.5rem);
@@ -456,7 +460,7 @@
             max-height: 0; opacity: 0; overflow: hidden;
             transition: max-height 0.6s var(--transition-smooth), opacity 0.6s ease;
         }
-        #sponsor-doc-wrap.expanded { max-height: 400px; opacity: 1; }
+        #sponsor-doc-wrap.expanded { max-height: 500px; opacity: 1; }
 
         /* Badges & Buttons */
         .alert-badge {
@@ -471,9 +475,9 @@
             margin-top: 1rem; color: var(--text-color);
             font-size: 1rem; font-weight: 600;
             border-bottom: 1px solid var(--text-color); padding-bottom: 2px;
-            transition: gap 0.3s ease;
+            transition: gap 0.3s ease, background-color 0.3s;
         }
-        .download-btn svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 2; }
+        .download-btn svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 2; flex-shrink: 0; }
         .download-btn:hover { gap: 12px; }
 
         /* Progress Bar */
@@ -498,21 +502,11 @@
 
         footer { padding: 4rem 0 2rem; text-align: center; border-top: 1px solid var(--accent-color); margin-top: 4rem; }
 
-        /* Responsive Breakpoints */
+        /* --- RESPONSIVE BREAKPOINTS --- */
         @media (max-width: 1024px) {
             header { padding: 1.5rem 2rem; }
             header.scrolled { padding: 1rem 2rem; }
             .container { padding: 0 2rem; }
-            
-            .video-blob-bg {
-                width: 400px;
-                height: 400px;
-                top: auto;
-                bottom: -5%;
-                right: -10%;
-                opacity: 0.5; /* Fade out slightly more on tablets */
-                z-index: 0;
-            }
         }
 
         @media (max-width: 768px) {
@@ -522,35 +516,55 @@
             .section-pad { padding: 4rem 0; }
             
             .hero { padding-top: 7rem; text-align: left; }
-            .hero h1 { font-size: 3rem; letter-spacing: -1px; }
-            
-            .video-blob-bg {
-                width: 300px;
-                height: 300px;
-                right: -20%;
-                top: 20%;
-                opacity: 0.3; /* Ensure text is readable on mobile */
-            }
+            .hero h1 { font-size: 3.5rem; letter-spacing: -1px; }
 
             .options-grid { grid-template-columns: 1fr; }
-            .calculator-result { text-align: left; }
+            .calculator-result { text-align: left; margin-top: 2rem; }
+            
+            /* Remove custom cursor on mobile for native UX */
+            .cursor, .cursor-glow { display: none !important; }
+            body { cursor: auto; }
+            a, button, input[type="checkbox"], label { cursor: pointer; }
+        }
+        
+        /* Ultra-mobile specific optimizations */
+        @media (max-width: 480px) {
+            header { padding: 1rem; }
+            header.scrolled { padding: 0.75rem 1rem; }
+            .container { padding: 0 1rem; }
+            
+            .hero h1 { font-size: clamp(2.5rem, 12vw, 3.5rem); } /* Prevent huge font breaking */
+            .total-amount { font-size: clamp(2.5rem, 12vw, 4rem); }
+            
+            .counter-container { flex-direction: column; align-items: flex-start; gap: 1.25rem;}
+            .counter-controls { width: 100%; justify-content: space-between; } /* Spread buttons on small screens */
             
             .checklist-item { gap: 1rem; padding: 1.5rem 0;}
             
-            /* Remove custom cursor on mobile for better UX */
-            .cursor { display: none; }
-            .cursor-glow { display: none;}
-            body { cursor: auto; }
-            a, button { cursor: pointer; }
-        }
-        
-        @media (max-width: 480px) {
-             .hero h1 { font-size: 2.5rem; }
-             .counter-container { flex-direction: column; align-items: flex-start;}
+            /* Convert inline links to highly tappable block buttons on mobile */
+            .download-btn { 
+                display: flex; 
+                width: 100%; 
+                justify-content: center; 
+                background: var(--text-color); 
+                color: var(--bg-color); 
+                padding: 12px; 
+                border-radius: 8px; 
+                border: none;
+                margin-top: 15px; 
+            }
+            .download-btn:hover { gap: 8px; transform: scale(0.98); }
         }
     </style>
 </head>
 <body>
+
+    <div class="full-page-video-wrapper">
+        <video autoplay loop muted playsinline>
+            <source src="WATER MP4.mp4" type="video/mp4">
+        </video>
+        <div class="video-overlay"></div>
+    </div>
 
     <div class="cursor-glow" id="cursorGlow"></div>
     <div class="cursor" id="custom-cursor"></div>
@@ -575,12 +589,6 @@
     <main id="content-wrapper">
         
         <section class="hero container" data-theme-trigger="light">
-            <div class="video-blob-bg">
-                <video autoplay loop muted playsinline>
-                    <source src="nature MP4.mp4" type="video/mp4">
-                </video>
-            </div>
-            
             <div class="hero-content">
                 <h1 id="t-title">
                     <span class="hero-text-line"><span>Extend your I-20.</span></span>
