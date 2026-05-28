@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>I-20 Extension Guide | DreamIT ESL</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,14 +32,12 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            /* Prevents text from overflowing its container on mobile */
             word-wrap: break-word;
             overflow-wrap: break-word;
         }
 
         body {
             font-family: var(--font-main);
-            /* Background color moved to overlay to let video show through */
             background-color: transparent; 
             color: var(--text-color);
             overflow-x: hidden;
@@ -47,36 +45,36 @@
             cursor: none; 
             transition: color 0.8s var(--transition-smooth);
             line-height: 1.5;
+            width: 100%;
         }
 
         /* --- FULL PAGE VIDEO BACKGROUND --- */
         .full-page-video-wrapper {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
+            inset: 0; /* Replaces top/left/right/bottom 0 */
+            width: 100%;
+            height: 100vh; /* Fallback */
+            height: 100dvh; /* Dynamic viewport for mobile browser bars */
             z-index: -10;
             overflow: hidden;
             pointer-events: none;
+            background-color: var(--bg-color); /* Flash prevention */
         }
 
         .full-page-video-wrapper video {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Ensures the video covers the entire screen */
-            transform: scale(1.05); /* Slight scale to hide edge artifacts */
+            object-fit: cover; 
+            object-position: center center; 
         }
 
-        /* Thematic overlay to ensure text readability and preserve your light/dark design */
         .video-overlay {
             position: absolute;
-            top: 0;
-            left: 0;
+            inset: 0;
             width: 100%;
             height: 100%;
             background-color: var(--bg-color);
-            opacity: 0.88; /* Lets the water show through subtly */
+            opacity: 0.88; 
             transition: background-color 0.8s var(--transition-smooth);
         }
 
@@ -129,6 +127,8 @@
             background: none;
             border: none;
             font-family: inherit;
+            outline: none;
+            -webkit-tap-highlight-color: transparent; /* Removes blue tap box on mobile */
         }
 
         /* Header */
@@ -177,12 +177,12 @@
             display: flex;
             gap: 0.75rem;
             overflow-x: auto;
-            scrollbar-width: none; /* Firefox */
+            scrollbar-width: none;
             padding-bottom: 0.5rem;
             width: 100%;
-            -webkit-overflow-scrolling: touch; /* Smooth scroll on iOS */
+            -webkit-overflow-scrolling: touch; 
         }
-        .nav-scroll::-webkit-scrollbar { display: none; /* Chrome/Safari */ }
+        .nav-scroll::-webkit-scrollbar { display: none; }
 
         .lang-btn {
             border: 1px solid var(--accent-color);
@@ -194,7 +194,7 @@
             white-space: nowrap;
             transition: all 0.3s ease;
             opacity: 0.7;
-            flex-shrink: 0; /* Prevent squishing on mobile */
+            flex-shrink: 0;
         }
 
         header.scrolled .lang-btn { border-color: var(--text-color); }
@@ -211,6 +211,7 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 4rem;
+            width: 100%;
         }
         .section-pad { padding: 6rem 0; }
         
@@ -243,7 +244,7 @@
         }
 
         .hero h1 {
-            font-size: clamp(2.5rem, 7vw, 7rem);
+            font-size: clamp(2.5rem, 8vw, 7rem);
             line-height: 1.1;
             letter-spacing: -2px;
             max-width: 900px;
@@ -262,7 +263,7 @@
         @keyframes slideUp { to { transform: translateY(0); } }
 
         .hero-subtitle {
-            font-size: clamp(1.1rem, 3vw, 1.5rem);
+            font-size: clamp(1.1rem, 4vw, 1.5rem);
             color: #666;
             margin-top: 1.5rem;
             max-width: 600px;
@@ -276,7 +277,7 @@
 
         /* Section Components */
         .section-header {
-            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-size: clamp(2rem, 6vw, 3.5rem);
             letter-spacing: -1px;
             margin-bottom: 2.5rem;
             border-bottom: 2px solid var(--text-color);
@@ -316,7 +317,7 @@
 
         .option-title { 
             font-family: var(--font-display); 
-            font-size: clamp(1.25rem, 3vw, 1.75rem); 
+            font-size: clamp(1.25rem, 4vw, 1.75rem); 
             font-weight: 700; 
             margin-bottom: 0.5rem; 
         }
@@ -335,30 +336,30 @@
         
         .counter-label { 
             font-family: var(--font-display); 
-            font-size: clamp(1.2rem, 3vw, 1.5rem); 
+            font-size: clamp(1.2rem, 4vw, 1.5rem); 
             font-weight: 600; 
         }
         
         .counter-controls { 
             display: flex; 
             align-items: center; 
-            gap: clamp(0.5rem, 2vw, 1.5rem); 
+            gap: clamp(0.5rem, 3vw, 1.5rem); 
         }
         
         .btn-circle {
-            width: clamp(36px, 10vw, 48px); 
-            height: clamp(36px, 10vw, 48px);
+            width: clamp(40px, 12vw, 48px); 
+            height: clamp(40px, 12vw, 48px);
             border: 1px solid var(--text-color);
             border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            font-size: clamp(1.2rem, 3vw, 1.5rem); 
+            font-size: clamp(1.2rem, 4vw, 1.5rem); 
             transition: all 0.3s ease;
             color: var(--text-color);
             flex-shrink: 0;
         }
         
         .btn-circle:hover { background: var(--text-color); color: var(--bg-color); }
-        .dependent-count { font-family: var(--font-display); font-size: clamp(1.5rem, 4vw, 2rem); font-weight: 700; width: 30px; text-align: center; }
+        .dependent-count { font-family: var(--font-display); font-size: clamp(1.5rem, 5vw, 2rem); font-weight: 700; width: 40px; text-align: center; }
 
         /* Calculator Result */
         .calculator-result {
@@ -370,14 +371,14 @@
         
         .total-amount {
             font-family: var(--font-display);
-            font-size: clamp(2.5rem, 8vw, 6rem);
+            font-size: clamp(2.5rem, 10vw, 6rem);
             font-weight: 800;
             line-height: 1;
             letter-spacing: -2px;
             font-variant-numeric: tabular-nums;
             color: var(--success-color);
             transition: color 0.5s ease;
-            word-break: break-all; /* Prevent overflow on massive numbers */
+            word-break: break-all; 
         }
         
         .result-note { font-size: 1rem; opacity: 0.6; margin-top: 1rem; }
@@ -396,7 +397,7 @@
         
         .toggle-label { 
             font-family: var(--font-display); 
-            font-size: clamp(1.2rem, 3vw, 1.5rem); 
+            font-size: clamp(1.2rem, 4vw, 1.5rem); 
             font-weight: 600;
             flex: 1;
         }
@@ -425,18 +426,18 @@
 
         .checklist-item input[type="checkbox"] {
             appearance: none;
-            width: clamp(24px, 6vw, 32px); 
-            height: clamp(24px, 6vw, 32px);
+            width: clamp(28px, 8vw, 32px); 
+            height: clamp(28px, 8vw, 32px);
             border: 2px solid var(--text-color);
             border-radius: 4px;
             display: grid; place-content: center;
             margin-top: 4px; transition: all 0.3s ease;
-            flex-shrink: 0; /* Important for mobile: keeps checkbox from squishing */
+            flex-shrink: 0; 
         }
         .checklist-item input[type="checkbox"]::before {
             content: ""; 
-            width: clamp(12px, 3vw, 16px); 
-            height: clamp(12px, 3vw, 16px);
+            width: clamp(14px, 4vw, 16px); 
+            height: clamp(14px, 4vw, 16px);
             transform: scale(0); transition: 120ms transform ease-in-out;
             background-color: var(--bg-color);
         }
@@ -448,10 +449,10 @@
         .checklist-text { width: 100%; transition: opacity 0.3s; flex: 1; }
         .checklist-text strong {
             font-family: var(--font-display); 
-            font-size: clamp(1.2rem, 3vw, 1.5rem);
+            font-size: clamp(1.2rem, 4vw, 1.5rem);
             display: block; margin-bottom: 0.5rem;
         }
-        .checklist-subtext { font-size: clamp(0.95rem, 2vw, 1.1rem); opacity: 0.7; display: block; line-height: 1.5; }
+        .checklist-subtext { font-size: clamp(0.95rem, 3vw, 1.1rem); opacity: 0.7; display: block; line-height: 1.5; }
         
         .checklist-item input:checked ~ .checklist-text { opacity: 0.5; }
         .checklist-item input:checked ~ .checklist-text strong { text-decoration: line-through; }
@@ -521,7 +522,7 @@
             .options-grid { grid-template-columns: 1fr; }
             .calculator-result { text-align: left; margin-top: 2rem; }
             
-            /* Remove custom cursor on mobile for native UX */
+            /* Hide custom cursors immediately on smaller screens for native touch */
             .cursor, .cursor-glow { display: none !important; }
             body { cursor: auto; }
             a, button, input[type="checkbox"], label { cursor: pointer; }
@@ -533,11 +534,11 @@
             header.scrolled { padding: 0.75rem 1rem; }
             .container { padding: 0 1rem; }
             
-            .hero h1 { font-size: clamp(2.5rem, 12vw, 3.5rem); } /* Prevent huge font breaking */
-            .total-amount { font-size: clamp(2.5rem, 12vw, 4rem); }
+            /* Prevent large text from breaking out of bounds */
+            .hero h1 { font-size: clamp(2.5rem, 12vw, 3.5rem); } 
             
             .counter-container { flex-direction: column; align-items: flex-start; gap: 1.25rem;}
-            .counter-controls { width: 100%; justify-content: space-between; } /* Spread buttons on small screens */
+            .counter-controls { width: 100%; justify-content: space-between; }
             
             .checklist-item { gap: 1rem; padding: 1.5rem 0;}
             
@@ -548,7 +549,7 @@
                 justify-content: center; 
                 background: var(--text-color); 
                 color: var(--bg-color); 
-                padding: 12px; 
+                padding: 14px; 
                 border-radius: 8px; 
                 border: none;
                 margin-top: 15px; 
@@ -561,7 +562,7 @@
 
     <div class="full-page-video-wrapper">
         <video autoplay loop muted playsinline>
-            <source src="WATER MP4.mp4" type="video/mp4">
+            <source src="WATER MP4 (1).mp4" type="video/mp4">
         </video>
         <div class="video-overlay"></div>
     </div>
